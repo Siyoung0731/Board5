@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace="com.green.menus.mapper.MenuMapper" : interface 위치 -->
+<mapper namespace="com.green.user.mapper.UserMapper">
+	<!-- users 목록 조회 -->
+	<select id="getUserList" resultType="com.green.user.dto.UserDto">
+		SELECT
+		    USERID,
+		    USERNAME,
+		    EMAIL,
+		    UPOINT,
+		    TO_CHAR(REGDATE, 'YYYY-MM-DD') REGDATE
+		FROM
+		    TUSER
+		ORDER BY USERID ASC
+	</select>
+	<!-- 한명 정보 조회 -->
+	<select id="getUser">
+		SELECT 
+			USERID,
+			PWD,
+			USERNAME,
+			EMAIL,
+			UPOINT,
+			TO_CHAR(REGDATE, 'YYYY-MM-DD HH24:MI:SS') REGDATE
+		FROM TUSER
+		WHERE USERID = #{ userid }
+	</select>
+	<!-- user insert -->
+	<insert id="insertUser">
+		INSERT INTO TUSER(
+			USERID, 
+			PWD, 
+			USERNAME, 
+			EMAIL
+			UPOINT,
+			REGDATE
+		)
+		VALUES( 
+			#{ userid }, 
+			#{ pwd }, 
+			#{ username }, 
+			#{ email },
+			1000,
+			sysdate
+		)
+	</insert>
+	<!-- 아이디 중복 확인 -->
+	<select id="getIdDupCheck2">
+		SELECT USERID
+			   ,PWD
+			   ,USERNAME
+			   ,EMAIL
+			   ,UPOINT
+			   ,TO_CHAR(REGDATE, 'YYYY-MM-DD HH:24:MI:SS') REGDATE
+		FROM TUSER
+		WHERE USERID = #{ userid }
+	</select>
+	<!-- user delete -->
+	<delete id="deleteUser">
+		DELETE FROM TUSER
+		 WHERE USERID = #{ userid }
+	</delete>
+	<!-- user update -->
+	<update id="updateUser">
+		UPDATE  TUSER
+		 SET    PWD    = #{ UserDto.pwd   },
+		        USERNAME  = #{ UserDto.username },
+		        EMAIL     = #{ UserDto.email    }
+		 WHERE  USERID    = #{ UserDto.userid   }
+		  AND PWD 	  = #{ oldpwd }
+	</update>
+	<!-- 사용자 수정: map , map.pwd(Error) -->
+		<update id="updateUser2">
+		UPDATE  TUSER
+		 SET    PWD    = #{ pwd },
+		        USERNAME  = #{ username },
+		        EMAIL     = #{ email    }
+		 WHERE  USERID    = #{ userid   }
+		  AND PWD 	  = #{ oldpwd }
+	</update>
+</mapper>
