@@ -21,6 +21,14 @@
     <div><a href="/Board/List?menu_id=MENU01">게시글 목록</a></div>
     <div><a href="/Board/WriteForm?menu_id=MENU01">게시글 추가</a></div>
     <div>&nbsp;</div>
+    
+    <div>
+      ${sessionScope.login.username} 님 환영합니다.<br>
+      당신의 가입일은 ${sessionScope.login.regdate} 입니다.<br>
+      <a href="/Users/Login">로그인</a><br/>    
+      <a href="/Users/Logout">로그아웃</a>	
+    </div>
+    
   </main>
 </body>
 </html>

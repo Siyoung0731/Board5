@@ -95,8 +95,10 @@
 		    <tr>
 		      <td colspan="4">
 		        <a class="btn btn-light" href="/Board/WriteForm?menu_id=${board.menu_id}">새글쓰기</a>
+		        <c:if test="${sessionScope.login.userid eq board.writer }">
 		        <a class="btn btn-light" href="/Board/UpdateForm?idx=${board.idx}&menu_id=${board.menu_id}">수정</a>
-		        <a class="btn btn-light" href="/Board/Delete?idx=${board.idx}&menu_id=${board.menu_id}">삭제</a>
+		        <a class="btn btn-light" href="/Board/Delete?idx=${board.idx}&menu_id=${board.menu_id}">삭제</a>		        
+		        </c:if>
 		        <a class="btn btn-light" href="/Board/List?menu_id=${board.menu_id}">목록</a>		      
 		        <a class="btn btn-light" href="/">Home</a>		      
 		      </td>

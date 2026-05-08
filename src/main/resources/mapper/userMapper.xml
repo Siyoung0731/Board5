@@ -26,7 +26,7 @@
 			UPOINT,
 			TO_CHAR(REGDATE, 'YYYY-MM-DD HH24:MI:SS') REGDATE
 		FROM TUSER
-		WHERE USERID = #{ userid }
+		WHERE USERID = #{ userid }	
 	</select>
 	<!-- user insert -->
 	<insert id="insertUser">

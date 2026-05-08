@@ -10,17 +10,24 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-
+import com.green.config.MvcConfig;
 import com.green.user.dto.UserDto;
 import com.green.user.mapper.UserMapper;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/Users")
 public class UserController {
+
+    private final MvcConfig mvcConfig;
 	@Autowired
 	private UserMapper userMapper;
+
+    UserController(MvcConfig mvcConfig) {
+        this.mvcConfig = mvcConfig;
+    }
 
 	@RequestMapping("/List")
 	public ModelAndView list() {
@@ -90,20 +97,6 @@ public class UserController {
 		mv.setViewName("redirect:List");
 		return mv;
 	}
-	/*
-	 * @RequestMapping("/Update") public ModelAndView update(UserDto dto, String
-	 * oldpwd) {
-	 * 
-	 * userMapper.updateUser(dto, oldpwd);
-	 * 
-	 * ModelAndView mv = new ModelAndView(); mv.setViewName("redirect:List"); return
-	 * mv; }
-	 */
-	
-	//아이디 중복확인 - 결과 문자열 리턴
-	// <b class="green">사용 가능한 아이디입니다</b>
-	// <b class="red">사용할 수 없는 아이디입니다</b>
-	// /IdDupCheck2?userid=sky
 	@GetMapping("/IdDupCheck2")
 	@ResponseBody // return 되는 글자는 JSP 가 아니다
 	public UserDto idDupCheck2(UserDto dto) {
@@ -122,8 +115,7 @@ public class UserController {
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("users/idcheck");
 		return mv;
-	}
-	
+	}	
 	//중복확인 
 	// /Users/IdCheck?userid=aaa
 	@RequestMapping("/IdCheck")
@@ -142,7 +134,28 @@ public class UserController {
 		mv.addObject("msg", msg);
 		return mv;
 	}
-	
+//------------------------------------------------------------------------------------
+	// LoginForm
+	@RequestMapping("/LoginForm")
+	public String loginForm() {
+		return "users/login";
+	}
+	// Login
+	@RequestMapping("/Login")
+	public String login(UserDto uto, HttpServletRequest request) {
+		UserDto user = userMapper.getUser(uto);
+		
+		HttpSession session = request.getSession();
+		session.setAttribute("login", user);
+		
+		return "redirect:/Board/List?menu_id=MENU01";
+	}
+	@RequestMapping("/Logout")
+	public String logout(UserDto uto, HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		session.invalidate();
+		return "redirect:/";
+	}
 }
 
 
