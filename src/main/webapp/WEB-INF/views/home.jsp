@@ -23,12 +23,11 @@
     <div>&nbsp;</div>
     
     <div>
-      ${sessionScope.login.username} 님 환영합니다.<br>
-      당신의 가입일은 ${sessionScope.login.regdate} 입니다.<br>
-      <a href="/Users/Login">로그인</a><br/>    
+      [ ${sessionScope.login.username} ] 님 환영합니다.<br>
+      당신의 가입일은 [ ${sessionScope.login.regdate} ] 입니다.<br>   
+      <a href="/Users/LoginForm">로그인</a><br>	
       <a href="/Users/Logout">로그아웃</a>	
-    </div>
-    
+    </div>   
   </main>
 </body>
 </html>
